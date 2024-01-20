@@ -1,21 +1,19 @@
 import React from "react";
 import Frame from "./frame";
+import { NavLink, Link, Outlet } from "react-router-dom";
 import { nanoid } from "nanoid";
 
-export default function Questions() {
-  const [quizArr, setQuizArr] = React.useState(); // Storing Fetching data
+export default function Questions(props) {
+  const [quizArr, setQuizArr] = React.useState(); // Storing Fetched data
   const [quesArr, setQuesArr] = React.useState(); //Fetched data into array
   const [startAgain, setStartAgain] = React.useState(true); // start control
   const [isSelected, setIsSelected] = React.useState(false); // all option selected control
+  const [isChecked, setIsChecked] = React.useState(false);
   const [score, setScore] = React.useState(0); // score control
-
-  // console.log("re-rendered!");
 
   // <-----------Fetching data from the API----------->
   React.useEffect(() => {
-    fetch(
-      "https://opentdb.com/api.php?amount=5&category=19&difficulty=easy&type=multiple"
-    )
+    fetch("https://opentdb.com/api.php?amount=5&category=18&type=multiple")
       .then((response) => response.json())
       .then((data) => {
         setQuizArr(data.results);
@@ -28,6 +26,7 @@ export default function Questions() {
       quizArr?.map((item) => {
         const allAnsArr = [...item.incorrect_answers, item.correct_answer];
         const allAns = allAnsArr.sort(() => Math.random() - 0.5);
+        // console.log(allAns);
         const corrAns = item.correct_answer;
         return {
           id: nanoid(),
@@ -87,22 +86,31 @@ export default function Questions() {
     }
   }
 
+  function returnHome() {
+    setIsChecked(true);
+  }
+
   // <---------Button control over start menu--------->
   const controlBtn = (
     <div className="score-details">
       {isSelected && (
         <p className="score">{`You are correct ${score} out of 5`} </p>
       )}
-      <button className="restart-btn" onClick={allOptionSelected}>
-        {isSelected ? "Start Again" : "Check Answers"}
+      <button
+        className="restart-btn"
+        onClick={isSelected ? returnHome : allOptionSelected}
+      >
+        {isSelected ? <NavLink to="/">Go Home</NavLink> : "Check Answers"}
       </button>
     </div>
   );
 
   return (
-    <div>
-      <div>{questionElements}</div>
-      <div>{controlBtn}</div>
-    </div>
+    <>
+      <div>
+        <div>{questionElements}</div>
+        <div>{controlBtn}</div>
+      </div>
+    </>
   );
 }
