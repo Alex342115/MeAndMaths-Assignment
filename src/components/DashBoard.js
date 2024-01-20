@@ -1,30 +1,33 @@
-import "./App.css";
-import SelectStud from "./components/studId";
 import React from "react";
-import Questions from "./components/questions";
-
-export default function Main() {
+import "./style/DashBoard.css";
+// import SelectStud from "./components/studId";
+import LeaderBoard from "./LeaderBoard";
+import BasicSelect from "./BasicSelect";
+import Questions from "./Questions";
+export default function DashBoard() {
   const [studID, setStudID] = React.useState(0);
   const [startQuizz, setStartQuizz] = React.useState(true);
-  // const [studentA, setStudentA] = React.useState(false);
-  // const [studentB, setStudentB] = React.useState(false);
-  // const [studentC, setStudentC] = React.useState(false);
+  const [studentA, setStudentA] = React.useState(false);
+  const [studentB, setStudentB] = React.useState(false);
+  const [studentC, setStudentC] = React.useState(false);
 
   // const studId = 1;
 
-  function getStudID(param) {
-    setStudID(param);
-  }
-
   function handleClick() {
-    // if (studID === 1) {
-    //   setStudentA(true);
-    // } else if (studID === 2) {
-    //   setStudentB(true);
-    // } else if (studID === 3) {
-    //   setStudentC(true);
-    // }
-    setStartQuizz(false);
+    if (studID === 1 && studentA === false) {
+      setStudentA(true);
+      setStartQuizz(false);
+    } else if (studID === 2 && studentB === false) {
+      setStudentB(true);
+      setStartQuizz(false);
+    } else if (studID === 3 && studentC === false) {
+      setStudentC(true);
+      setStartQuizz(false);
+    } else if (studID === 0) {
+      alert("Please select Student ID");
+    } else {
+      alert("Student ID already give test!");
+    }
   }
 
   return (
@@ -60,12 +63,12 @@ export default function Main() {
           fill="#DEEBF8"
         />
       </svg>
-
       {startQuizz ? (
         <div>
           {" "}
+          <LeaderBoard  />
           <div className="start">
-            <SelectStud studID={studID} getStudID={getStudID} />
+            <BasicSelect studID={studID} setStudID={setStudID} />
             <h3 className="description">All THE BEST!</h3>
             <button className="start-btn" onClick={handleClick}>
               Start Quiz
@@ -74,7 +77,11 @@ export default function Main() {
         </div>
       ) : (
         <div>
-          <Questions className="questions" studID={studID} />
+          <Questions
+            className="questions"
+            studID={studID}
+            setStartQuizz={setStartQuizz}
+          />
         </div>
       )}
     </div>

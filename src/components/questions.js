@@ -1,6 +1,6 @@
 import React from "react";
-import Frame from "./frame";
-import { NavLink, Link, Outlet } from "react-router-dom";
+import Frame from "./Frame";
+import { NavLink } from "react-router-dom";
 import { nanoid } from "nanoid";
 
 export default function Questions(props) {
@@ -8,8 +8,9 @@ export default function Questions(props) {
   const [quesArr, setQuesArr] = React.useState(); //Fetched data into array
   const [startAgain, setStartAgain] = React.useState(true); // start control
   const [isSelected, setIsSelected] = React.useState(false); // all option selected control
-  const [isChecked, setIsChecked] = React.useState(false);
   const [score, setScore] = React.useState(0); // score control
+
+  const { studID, setStartQuizz } = props;
 
   // <-----------Fetching data from the API----------->
   React.useEffect(() => {
@@ -87,7 +88,8 @@ export default function Questions(props) {
   }
 
   function returnHome() {
-    setIsChecked(true);
+    localStorage.setItem(studID, score);
+    setStartQuizz(true);
   }
 
   // <---------Button control over start menu--------->
@@ -100,7 +102,11 @@ export default function Questions(props) {
         className="restart-btn"
         onClick={isSelected ? returnHome : allOptionSelected}
       >
-        {isSelected ? <NavLink to="/">Go Home</NavLink> : "Check Answers"}
+        {isSelected ? (
+          <NavLink to="/dashboard">Go Home</NavLink>
+        ) : (
+          "Check Answers"
+        )}
       </button>
     </div>
   );

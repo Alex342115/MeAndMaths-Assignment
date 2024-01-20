@@ -1,5 +1,5 @@
 import React from "react";
-import Answer from "./answer";
+import Answer from "./Answer";
 import { decode } from "html-entities";
 export default function Frame(props) {
   const answers = props.answers;

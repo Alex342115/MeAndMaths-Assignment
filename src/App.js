@@ -1,12 +1,19 @@
-import Main from "./Main";
-import { BrowserRouter as Router,Routes, Route } from "react-router-dom";
+// import logo from "./logo.svg";
+import React from "react";
+import DashBoard from "./components/DashBoard";
+import "./App.css";
+import { Route, Routes } from "react-router-dom";
+// import Dummy from "./components/Dummy";
 
-export default function App() {
+function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Main/>} />
+        <Route path="/" element={<DashBoard />} />
+        <Route path="/dashboard" element={<DashBoard />} />
       </Routes>
     </>
   );
 }
+
+export default App;
